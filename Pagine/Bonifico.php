@@ -19,9 +19,9 @@
             <div class="titolo-centrale">BANCA DEGLI STIRATI</div>
             <div class="prova">
                 <div class="provacontenitore"><a href="../index.html">HOME</a></div>
-                <div class="provacontenitore"><a href="Profilo.html">PROFILO</a></div>
-                <div class="provacontenitore"><a href="Trasferimenti.html">TRASFERIMENTI</a></div>
-                <div class="provacontenitore"><a href="Bonifico.html" class="attiva">BONIFICO</a></div>
+                <div class="provacontenitore"><a href="Profilo.php">PROFILO</a></div>
+                <div class="provacontenitore"><a href="Trasferimenti.php">TRASFERIMENTI</a></div>
+                <div class="provacontenitore"><a href="Bonifico.php" class="attiva">BONIFICO</a></div>
             </div>         
         </nav>
     </div>
