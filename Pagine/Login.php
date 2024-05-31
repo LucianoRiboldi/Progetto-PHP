@@ -1,5 +1,5 @@
 <?php
-    if (isset($_POST["username"])) $username = $_POST["username"]; else $username = "";
+    if (isset($_POST["ID"])) $ID = $_POST["ID"]; else $ID = "";
     if (isset($_POST["password"])) $password = $_POST["password"]; else $password = "";
 ?>
 
@@ -16,8 +16,8 @@
         <form action="" method="post">
             <table class="">
                 <tr>
-                    <td><label for="username">Username: </label></td>
-                    <td><input type="text" name="username" id="username" value = "<?php echo $username ?>" required></td>
+                    <td><label for="ID">ID Identificativo: </label></td>
+                    <td><input type="number" name="ID" id="ID" value = "<?php echo $ID ?>" required></td>
                 </tr>
                 <tr>
                     <td><label for="password">Password: </label></td>
@@ -27,25 +27,25 @@
             <input type="submit" value="Accedi">
         </form>
         <?php
-            if (isset($_POST["username"]) and isset($_POST["password"])) {
-                require("data/connessione_db.php");
+            if (isset($_POST["ID"]) and isset($_POST["password"])) {
+                require("Data/connessione.php");
 
-                $myquery = "SELECT username, password 
+                $query = "SELECT ID, password 
                             FROM utenti
-                            WHERE username='$username'
+                            WHERE ID='$ID'
                                 AND password='$password'";
 
-                $ris = $conn->query($myquery) or die("<p>Query fallita! ".$conn->error."</p>");
+                $ris = $conn->query($query) or die("<p>Query fallita! ".$conn->error."</p>");
 
                 if ($ris->num_rows == 0) {
-                    echo "<p>Utente o password non trovati.</p>";
+                    echo "<p>ID o password non trovati.</p>";
                     $conn->close();
                 } else {
                     session_start();
-                    $_SESSION["username"] = $username;
+                    $_SESSION["ID"] = $ID;
 
                     $conn->close();
-					header("location: pagine/home.php");
+					header("location: index.php");
                 }
             }
         ?>
