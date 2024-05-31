@@ -1,6 +1,7 @@
 <?php
+    session_start();
     if(!isset($_SESSION['ID'])){
-        header('location:Pagine/Login.php')
+        header('location:Login.php');
     }
 ?>
 <!DOCTYPE html>
