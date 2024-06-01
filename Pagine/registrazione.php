@@ -45,7 +45,7 @@
 
                     $query = "SELECT nome, cognome, email 
 						    FROM utenti 
-						    WHERE nome='$username'
+						    WHERE nome='$nome'
                                 AND cognome='$cognome'
                                 AND email='$email'";
 
@@ -56,20 +56,28 @@
 
                         $query = "INSERT INTO utenti (nome, password, cognome, email)
                                     VALUES ('$nome', '$password', '$cognome','$email')";
-
                         if ($conn->query($query) === true) {
-                            session_start();
-                            $_SESSION["ID"]=$ID;
                             
 						    $conn->close();
 
-                            echo "Registrazione effettuata con successo!<br>sarai ridirezionato alla home tra 5 secondi.";
-                            echo "IL TUO ID IDENTIFICATIVO DA UTILIZZARE PER GLI ACCESSI FUTURI: " ."$ID";
-                            header('Refresh: 10; URL=home.php');
+                            echo "Registrazione effettuata con successo!<br>sarai ridirezionato alla home tra 10 secondi.";
 
                         } else {
                             echo "Non è stato possibile effettuare la registrazione per il seguente motivo: " . $conn->error;
                         }
+                        require('../Data/connessione.php');
+                        $query="SELECT ID
+                                FROM utenti
+                                WHERE nome='$nome'
+                                    AND cognome='$cognome'
+                                    AND email='$email'";
+                        $ris=$conn->query($query);
+                        $riga=$ris->fetch_assoc();
+                        $ID = $riga['ID'];
+                        session_start();
+                        $_SESSION['ID']=$ID;
+                        echo "IL TUO ID IDENTIFICATIVO DA UTILIZZARE PER GLI ACCESSI FUTURI: " ."$ID";
+                        header('Refresh: 10; URL=../index.html');
                     }
                 }
             }

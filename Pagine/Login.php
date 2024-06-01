@@ -26,9 +26,10 @@
             </table>
             <input type="submit" value="Accedi">
         </form>
+        <p>Non sei ancora registrato? <a href="registrazione.php">Clicca qui</a></p>
         <?php
             if (isset($_POST["ID"]) and isset($_POST["password"])) {
-                require("Data/connessione.php");
+                require("../Data/connessione.php");
 
                 $query = "SELECT ID, password 
                             FROM utenti
@@ -45,7 +46,7 @@
                     $_SESSION["ID"] = $ID;
 
                     $conn->close();
-					header("location: index.php");
+					header("location: ../index.html");
                 }
             }
         ?>
