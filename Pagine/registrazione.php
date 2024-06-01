@@ -49,27 +49,15 @@
                 </tr>
                 <tr>
                     <td><label for="nome">Nome: </label></td>
-                    <td><input type="text" name="nome" id="nome" <?php echo "value = '$nome'" ?>></td>
+                    <td><input type="text" name="nome" id="nome" <?php echo "value = '$nome'" ?> required></td>
                 </tr>
                 <tr>
                     <td><label for="cognome">Cognome: </label></td>
-                    <td><input type="text" name="cognome" id="cognome" <?php echo "value = '$cognome'" ?>></td>
+                    <td><input type="text" name="cognome" id="cognome" <?php echo "value = '$cognome'" ?> required></td>
                 </tr>
                 <tr>
                     <td><label for="email">Email: </label></td>
-                    <td><input type="text" name="email" id="email" <?php echo "value = '$email'" ?>></td>
-                </tr>
-                <tr>
-                    <td><label for="telefono">Telefono: </label></td>
-                    <td><input type="text" name="telefono" id="telefono" <?php echo "value = '$telefono'" ?>></td>
-                </tr>
-                <tr>
-                    <td><label for="comune">Comune: </label></td>
-                    <td><input type="text" name="comune" id="comune" <?php echo "value = '$comune'" ?>></td>
-                </tr>
-                <tr>
-                    <td><label for="indirizzo">Indirizzo: </label></td>
-                    <td><input type="text" name="indirizzo" id="indirizzo" <?php echo "value = '$indirizzo'" ?>></td>
+                    <td><input type="text" name="email" id="email" <?php echo "value = '$email'" ?> required></td>
                 </tr>
             </table>
             <input type="submit" value="Invia">
@@ -77,38 +65,31 @@
 
         <p>
             <?php
-            if(isset($_POST["username"]) and isset($_POST["password"])) {
-                if ($_POST["username"] == "" or $_POST["password"] == "") {
-                    echo "username e password non possono essere vuoti!";
+            if(isset($_POST["nome"]) and isset($_POST["password"]) and isset($_POST["cognome"]) and isset($_POST["email"])) {
+                if ($_POST["nome"] == "" or $_POST["cognome"] == "" or $_POST["password"] == "" or $_POST["email"] == "") {
+                    echo "i campi sovrastanti non possono essere vuoti!";
                 } elseif ($_POST["password"] != $_POST["conferma"]){
                     echo "<p>Le password inserite non corrispondono</p>";
                 } else {
-                    require("../data/connessione_db.php");
+                    require("../data/connessione.php");
 
-                    $myquery = "SELECT username 
+                    $query = "SELECT nome, cognome, email 
 						    FROM utenti 
-						    WHERE username='$username'";
-                    //echo $myquery;
+						    WHERE nome='$username'
+                                AND cognome='$cognome'
+                                AND email='$email'";
 
-                    $ris = $conn->query($myquery) or die("<p>Query fallita!</p>");
+                    $ris = $conn->query($query) or die("<p>Query fallita!</p>");
                     if ($ris->num_rows > 0) {
-                        echo "Questo username è già stato usato";
+                        echo "Impossibile creare l'account; è presente un omonimo che utilizza la sua stessa email. Riprovare con un indirizzo diverso";
                     } else {
 
-                        $myquery = "INSERT INTO utenti (username, password, nome, cognome, email, telefono, comune, indirizzo)
-                                    VALUES ('$username', '$password', '$nome', '$cognome','$email','$telefono','$comune','$indirizzo')";
+                        $query = "INSERT INTO utenti (nome, password, cognome, email)
+                                    VALUES ('$nome', '$password', '$cognome','$email')";
 
-                        /*
-                        // Versione con l'uso dell'hash
-                        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-
-                        $myquery = "INSERT INTO utenti (username, password, nome, cognome, email, telefono, comune, indirizzo)
-                                    VALUES ('$username', '$password_hash', '$nome', '$cognome','$email','$telefono','$comune','$indirizzo')";
-                        */
-
-                        if ($conn->query($myquery) === true) {
+                        if ($conn->query($query) === true) {
                             session_start();
-                            $_SESSION["username"]=$username;
+                            $_SESSION["ID"]=$ID;
                             
 						    $conn->close();
 
