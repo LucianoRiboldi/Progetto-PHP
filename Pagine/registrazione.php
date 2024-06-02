@@ -76,6 +76,17 @@
                         $ID = $riga['ID'];
                         session_start();
                         $_SESSION['ID']=$ID;
+                        $query2="INSERT INTO conticorrenti (IDUtente, saldo)
+                                    VALUES ('$ID', '0.00')";
+                        if ($conn->query($query2) === true) {
+                            
+						    $conn->close();
+
+                            echo "Creazione conto corrente avvenuta";
+
+                        } else {
+                            echo "Non è stato possibile creare il conto per il seguente motivo: " . $conn->error;
+                        }
                         echo "IL TUO ID IDENTIFICATIVO DA UTILIZZARE PER GLI ACCESSI FUTURI: " ."$ID";
                         header('Refresh: 10; URL=../index.html');
                     }

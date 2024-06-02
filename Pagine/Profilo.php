@@ -1,9 +1,4 @@
-<?php
-    session_start();
-    if(!isset($_SESSION['ID'])){
-        header('location:Login.php');
-    }
-?>
+<?php require("controllo.php") ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
