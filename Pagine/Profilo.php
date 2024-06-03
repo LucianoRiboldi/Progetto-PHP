@@ -83,6 +83,7 @@
 				<input type="submit" name="pulsante_modifica" value="<?php if($modifica==false) echo $strmodifica; else echo $strconferma; ?>">
 			</p>
 		</form>
+        <a href="../data/logout.php">Logout</a>
     </div>
     <?php 
 		include('footer.php')
