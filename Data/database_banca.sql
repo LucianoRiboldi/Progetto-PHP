@@ -23,17 +23,30 @@ USE `banca`;
 CREATE TABLE IF NOT EXISTS `bonifici` (
   `IDContoDestinatario` int(11) NOT NULL,
   `IDContoMittente` int(11) NOT NULL,
-  `SommaDenaro` decimal(10,2) NOT NULL,
+  `SommaDenaro` float NOT NULL DEFAULT 0,
   `IDBonifico` int(11) NOT NULL AUTO_INCREMENT,
-  `DataBonifico` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`IDBonifico`),
   KEY `FK_bonifici_conticorrenti` (`IDContoDestinatario`),
   KEY `FK_bonifici_conticorrenti_2` (`IDContoMittente`),
-  CONSTRAINT `FK_bonifici_conticorrenti` FOREIGN KEY (`IDContoDestinatario`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_bonifici_conticorrenti_2` FOREIGN KEY (`IDContoMittente`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `FK_bonifici_conticorrenti` FOREIGN KEY (`IDContoDestinatario`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_bonifici_conticorrenti_2` FOREIGN KEY (`IDContoMittente`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.bonifici: ~0 rows (circa)
+-- Dump dei dati della tabella banca.bonifici: ~13 rows (circa)
+REPLACE INTO `bonifici` (`IDContoDestinatario`, `IDContoMittente`, `SommaDenaro`, `IDBonifico`) VALUES
+	(3, 2, 0.3, 7),
+	(3, 2, 0, 8),
+	(3, 2, 0, 9),
+	(3, 2, 0.02, 10),
+	(1, 3, 0.01, 14),
+	(1, 3, 0.01, 15),
+	(1, 3, 0.01, 16),
+	(1, 3, 0.01, 17),
+	(1, 3, 0.01, 18),
+	(2, 3, 0.01, 22),
+	(2, 3, 0.01, 23),
+	(2, 3, 0.01, 24),
+	(2, 3, 0.5, 25);
 
 -- Dump della struttura di tabella banca.conticorrenti
 CREATE TABLE IF NOT EXISTS `conticorrenti` (
@@ -42,13 +55,28 @@ CREATE TABLE IF NOT EXISTS `conticorrenti` (
   `Saldo` decimal(20,2) DEFAULT 0.00,
   PRIMARY KEY (`NumeroConto`),
   KEY `FK_conticorrenti_utenti` (`IDUtente`),
-  CONSTRAINT `FK_conticorrenti_utenti` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `FK_conticorrenti_utenti` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.conticorrenti: ~2 rows (circa)
+-- Dump dei dati della tabella banca.conticorrenti: ~3 rows (circa)
 REPLACE INTO `conticorrenti` (`NumeroConto`, `IDUtente`, `Saldo`) VALUES
-	(1, 9, 5.54),
-	(2, 10, 8.99);
+	(1, 9, 4.51),
+	(2, 10, 0.65),
+	(3, 11, 9.37);
+
+-- Dump della struttura di tabella banca.transazioni
+CREATE TABLE IF NOT EXISTS `transazioni` (
+  `IDTransazione` int(11) NOT NULL AUTO_INCREMENT,
+  `NumeroConto` int(11) NOT NULL,
+  `Importo` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `DataTransazione` timestamp NOT NULL DEFAULT current_timestamp(),
+  `TipoTransazione` enum('Deposito','Prelievo') NOT NULL,
+  PRIMARY KEY (`IDTransazione`),
+  KEY `FK_transazioni_conticorrenti` (`NumeroConto`),
+  CONSTRAINT `FK_transazioni_conticorrenti` FOREIGN KEY (`NumeroConto`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dump dei dati della tabella banca.transazioni: ~0 rows (circa)
 
 -- Dump della struttura di tabella banca.utenti
 CREATE TABLE IF NOT EXISTS `utenti` (
@@ -58,12 +86,13 @@ CREATE TABLE IF NOT EXISTS `utenti` (
   `Email` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.utenti: ~2 rows (circa)
+-- Dump dei dati della tabella banca.utenti: ~3 rows (circa)
 REPLACE INTO `utenti` (`ID`, `Nome`, `Cognome`, `Email`, `Password`) VALUES
 	(9, 'a', 'a', 'a', 'a'),
-	(10, 'e', 'e', 'e', 'e');
+	(10, 'e', 'e', 'e', 'e'),
+	(11, 'asd', 'mnb', 'm', 'enea10');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
