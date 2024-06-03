@@ -16,7 +16,7 @@
 
 		if ($modifica == false){
 			$sql = "UPDATE utenti
-					SET password = '".$_POST["password"]."', 
+					SET Password = '".$_POST["password"]."', 
 						Nome = '".$_POST["nome"]."', 
 						Cognome = '".$_POST["cognome"]."', 
 						Email = '".$_POST["email"]."', 
@@ -54,7 +54,7 @@
         </nav>
         <h1>Dati Personali</h1>
 		<?php
-			$sql = "SELECT ID, password, Nome, Cognome, Email
+			$sql = "SELECT ID, Password, Nome, Cognome, Email
 				FROM utenti 
 				WHERE ID='$username'";
 			//echo $sql;

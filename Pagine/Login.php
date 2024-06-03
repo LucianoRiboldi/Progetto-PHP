@@ -31,10 +31,10 @@
             if (isset($_POST["ID"]) and isset($_POST["password"])) {
                 require("../Data/connessione.php");
 
-                $query = "SELECT ID, password 
+                $query = "SELECT ID, Password 
                             FROM utenti
                             WHERE ID='$ID'
-                                AND password='$password'";
+                                AND Password='$password'";
 
                 $ris = $conn->query($query) or die("<p>Query fallita! ".$conn->error."</p>");
 

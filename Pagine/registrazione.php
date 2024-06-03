@@ -54,7 +54,7 @@
                         echo "Impossibile creare l'account; è presente un omonimo che utilizza la sua stessa email. Riprovare con un indirizzo diverso";
                     } else {
 
-                        $query = "INSERT INTO utenti (nome, password, cognome, email)
+                        $query = "INSERT INTO utenti (Nome, Password, Cognome, Email)
                                     VALUES ('$nome', '$password', '$cognome','$email')";
                         if ($conn->query($query) === true) {
                             
@@ -68,15 +68,15 @@
                         require('../Data/connessione.php');
                         $query="SELECT ID
                                 FROM utenti
-                                WHERE nome='$nome'
-                                    AND cognome='$cognome'
-                                    AND email='$email'";
+                                WHERE Nome='$nome'
+                                    AND Cognome='$cognome'
+                                    AND Email='$email'";
                         $ris=$conn->query($query);
                         $riga=$ris->fetch_assoc();
                         $ID = $riga['ID'];
                         session_start();
                         $_SESSION['ID']=$ID;
-                        $query2="INSERT INTO conticorrenti (IDUtente, saldo)
+                        $query2="INSERT INTO conticorrenti (IDUtente, Saldo)
                                     VALUES ('$ID', '0.00')";
                         if ($conn->query($query2) === true) {
                             
