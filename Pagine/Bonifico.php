@@ -125,10 +125,12 @@
                             WHERE IDutente='$IDm'";
                     $mittenteq=$conn->query($ricavaid);
                     $destinatarioq=$conn->query($ricavaid2);
-                    $mittente=$mittenteq->fetch_assoch();
-                    $destinatario=$destinatarioq->fetch_assoch();
+                    $mittentear=$mittenteq->fetch_assoc();
+                    $destinatarioar=$destinatarioq->fetch_assoc();
+                    $mittente=$mittentear["NumeroConto"];
+                    $destinatario=$destinatarioar["NumeroConto"];
                     $conn->commit();
-                    echo "Bonifico avvenuto con successo $IDm $ID $importo";
+                    echo "Bonifico avvenuto con successo";
                     $querybonifico="INSERT INTO bonifici(IDContoDestinatario, IDContoMittente, SommaDenaro)
                                         VALUES    ('$mittente', '$destinatario', '$importo')";
                     $conn->query($querybonifico);
