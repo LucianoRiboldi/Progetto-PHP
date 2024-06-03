@@ -69,7 +69,7 @@
                             $ID = $riga["ID"];
                             if($ID != $_SESSION["ID"]){
                             echo <<<EOD
-                            <p><input type="checkbox" name="beneficiario" onclick="onlyOne(this)"/>."$cognome"."$nome"</p>
+                            <p><input type="checkbox" name="beneficiario" onclick="onlyOne(this)"/>$cognome $nome</p>
                             EOD;
                             }
                             
@@ -86,7 +86,7 @@
                             $ID = $riga["ID"];
                             if($ID != $_SESSION["ID"]){
                             echo <<<EOD
-                            <p><input type="checkbox" name="beneficiario" value="$ID" onclick="onlyOne(this)"/>."$cognome"."$nome"</p>
+                            <p><input type="checkbox" name="beneficiario" value="$ID" onclick="onlyOne(this)"/>$cognome $nome</p>
                             EOD;
                             }                            
                         }

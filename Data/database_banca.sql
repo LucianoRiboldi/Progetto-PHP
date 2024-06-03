@@ -23,30 +23,31 @@ USE `banca`;
 CREATE TABLE IF NOT EXISTS `bonifici` (
   `IDContoDestinatario` int(11) NOT NULL,
   `IDContoMittente` int(11) NOT NULL,
-  `SommaDenaro` float NOT NULL DEFAULT 0,
+  `SommaDenaro` decimal(10,2) NOT NULL,
   `IDBonifico` int(11) NOT NULL AUTO_INCREMENT,
+  `DataBonifico` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`IDBonifico`),
   KEY `FK_bonifici_conticorrenti` (`IDContoDestinatario`),
   KEY `FK_bonifici_conticorrenti_2` (`IDContoMittente`),
-  CONSTRAINT `FK_bonifici_conticorrenti` FOREIGN KEY (`IDContoDestinatario`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_bonifici_conticorrenti_2` FOREIGN KEY (`IDContoMittente`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_bonifici_conticorrenti` FOREIGN KEY (`IDContoDestinatario`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_bonifici_conticorrenti_2` FOREIGN KEY (`IDContoMittente`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella banca.bonifici: ~13 rows (circa)
-REPLACE INTO `bonifici` (`IDContoDestinatario`, `IDContoMittente`, `SommaDenaro`, `IDBonifico`) VALUES
-	(3, 2, 0.3, 7),
-	(3, 2, 0, 8),
-	(3, 2, 0, 9),
-	(3, 2, 0.02, 10),
-	(1, 3, 0.01, 14),
-	(1, 3, 0.01, 15),
-	(1, 3, 0.01, 16),
-	(1, 3, 0.01, 17),
-	(1, 3, 0.01, 18),
-	(2, 3, 0.01, 22),
-	(2, 3, 0.01, 23),
-	(2, 3, 0.01, 24),
-	(2, 3, 0.5, 25);
+REPLACE INTO `bonifici` (`IDContoDestinatario`, `IDContoMittente`, `SommaDenaro`, `IDBonifico`, `DataBonifico`) VALUES
+	(3, 2, 0.30, 7, '2024-06-03 19:49:10'),
+	(3, 2, 0.00, 8, '2024-06-03 19:49:10'),
+	(3, 2, 0.00, 9, '2024-06-03 19:49:10'),
+	(3, 2, 0.02, 10, '2024-06-03 19:49:10'),
+	(1, 3, 0.01, 14, '2024-06-03 19:49:10'),
+	(1, 3, 0.01, 15, '2024-06-03 19:49:10'),
+	(1, 3, 0.01, 16, '2024-06-03 19:49:10'),
+	(1, 3, 0.01, 17, '2024-06-03 19:49:10'),
+	(1, 3, 0.01, 18, '2024-06-03 19:49:10'),
+	(2, 3, 0.01, 22, '2024-06-03 19:49:10'),
+	(2, 3, 0.01, 23, '2024-06-03 19:49:10'),
+	(2, 3, 0.01, 24, '2024-06-03 19:49:10'),
+	(2, 3, 0.50, 25, '2024-06-03 19:49:10');
 
 -- Dump della struttura di tabella banca.conticorrenti
 CREATE TABLE IF NOT EXISTS `conticorrenti` (
@@ -55,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `conticorrenti` (
   `Saldo` decimal(20,2) DEFAULT 0.00,
   PRIMARY KEY (`NumeroConto`),
   KEY `FK_conticorrenti_utenti` (`IDUtente`),
-  CONSTRAINT `FK_conticorrenti_utenti` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_conticorrenti_utenti` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella banca.conticorrenti: ~3 rows (circa)
