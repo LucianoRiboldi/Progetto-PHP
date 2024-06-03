@@ -1,5 +1,5 @@
 <?php 
-    require("controllo.php")
+    require("controllo.php");
     $username = $_SESSION["ID"];
     require('../data/connessione_db.php');
 
