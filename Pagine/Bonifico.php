@@ -117,10 +117,20 @@
                             WHERE  IDUtente='$ID'";
                     $conn->query($sqlm);
                     $conn->query($sqld);
+                    $ricavaid="SELECT NumeroConto
+                                FROM conticorrenti
+                                WHERE IDutente='$ID'";
+                    $ricavaid2="SELECT NumeroConto
+                             FROM conticorrenti
+                            WHERE IDutente='$IDm'";
+                    $mittenteq=$conn->query($ricavaid);
+                    $destinatarioq=$conn->query($ricavaid2);
+                    $mittente=$mittenteq->fetch_assoch();
+                    $destinatario=$destinatarioq->fetch_assoch();
                     $conn->commit();
-                    echo "Bonifico avvenuto con successo";
+                    echo "Bonifico avvenuto con successo $IDm $ID $importo";
                     $querybonifico="INSERT INTO bonifici(IDContoDestinatario, IDContoMittente, SommaDenaro)
-                                        VALUES    ('$ID', '$IDm', '$importo')";
+                                        VALUES    ('$mittente', '$destinatario', '$importo')";
                     $conn->query($querybonifico);
                 }else{
                     echo "Sul tuo conto non sono presenti i fondi necessari a completare il bonifico";
