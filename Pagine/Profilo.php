@@ -1,7 +1,7 @@
 <?php 
     require("controllo.php");
     $username = $_SESSION["ID"];
-    require('../data/connessione_db.php');
+    require('../data/connessione.php');
 
 	$strmodifica = "Modifica";
 	$strconferma = "Conferma";
@@ -19,7 +19,7 @@
 					SET Password = '".$_POST["password"]."', 
 						Nome = '".$_POST["nome"]."', 
 						Cognome = '".$_POST["cognome"]."', 
-						Email = '".$_POST["email"]."', 
+						Email = '".$_POST["email"]."' 
 					WHERE ID = '".$username."'";
 			if($conn->query($sql) === true) {
 				//echo "Record updated successfully";
