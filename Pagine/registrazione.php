@@ -88,7 +88,7 @@
                             echo "Non è stato possibile creare il conto per il seguente motivo: " . $conn->error;
                         }
                         echo "IL TUO ID IDENTIFICATIVO DA UTILIZZARE PER GLI ACCESSI FUTURI: " ."$ID";
-                        header('Refresh: 10; URL=../index.html');
+                        header('Refresh: 10; URL=../index.php');
                     }
                 }
             }
