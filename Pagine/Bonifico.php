@@ -1,4 +1,7 @@
-<?php require("controllo.php") ?>
+<?php
+    require("controllo.php");
+    $ID= $_SESSION['ID'];
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,17 +23,20 @@
             </div>         
         </nav>
         <form method="post" action="">
-			<table>
-				<tr>
-					<td><label for="nome">Nome:</label></td>
+            <table>
+                <tr>
+                    <td><label for="nome">Nome:</label></td>
                     <td><input class="" type="text" name="nome" id="" value="<?php echo isset($_POST['nome_ricerca']) ? $_POST['nome_ricerca'] : ''; ?>"></td>
-				</tr>
-				<tr>
+                </tr>
+                <tr>
                     <td><label for="cognome">Cognome:</label></td>
                     <td><input class="" type="text" name="cognome" id="" value="<?php echo isset($_POST['cognome_ricerca']) ? $_POST['cognome_ricerca'] : ''; ?>"></td>
+                </tr>
+                <tr>
+					<td style="text-align: center; padding-top: 10px" colspan="2"><input type="submit" value="Cerca"/></td>
 				</tr>
-			</table>
-		</form>
+            </table>
+        </form>
         <?php
             if (isset($_POST["nome_ricerca"]) and isset($_POST["cognome_ricerca"])) {
                 $nomeric = $_POST["nome_ricerca"];
@@ -44,7 +50,7 @@
                 $conn->close();
             }
         ?>
-        <form action="processa_bonifico.php" method="post">
+        <form action="" method="post">
             <label for="beneficiario">Seleziona Beneficiario:</label>
             <select id="beneficiario" name="beneficiario">
                 <?php
@@ -61,21 +67,21 @@
             <input type="submit" value="Esegui Bonifico">
         </form>
         <?php
-            session_start();
             require("../Data/connessione.php");
             $querym="SELECT conticorrenti.saldo
                       FROM utenti JOIN conticorrenti ON utenti.ID=conticorrenti.IDUtente
-                      WHERE utenti.ID=$_SESSION['ID']";
-            $rism=$conn->query($query) or die("<p>Query fallita!</p>");
+                      WHERE utenti.ID='$ID'";
+            $rism=$conn->query($querym) or die("<p>Query fallita!</p>");
             $contom=$rism->fetch_assoc();
-            $importo=$_POST['importo']
+            $importo=$_POST["importo"];
             if($contom>=$importo){
                 $sqlm= "UPDATE conticorrenti
                         SET Saldo = Saldo - $importo
-                        WHERE IDUtente = $_SESSION['ID']";
+                        WHERE IDUtente = '$ID'";
+                $IDpost = $_POST['ID'];
                 $sqld= "UPDATE conticorrenti
                         SET Saldo = Saldo + $importo
-                        WHERE IDUTENTE = $_POST['ID']";
+                        WHERE IDUTENTE = '$IDpost'";
                 $conn->query($sqlm);
                 $conn->query($sqld);
                 $conn->commit();
