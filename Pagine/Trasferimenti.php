@@ -58,7 +58,7 @@
                 <th>Nome</th>
                 <th>Denaro</th>
             </tr>
-            <?php foreach ($ris1 as $riga): ?>
+            <?php foreach ($ris2 as $riga): ?>
                 <tr>
                     <td><?php echo $riga["Cognome"]; ?></td>
                     <td><?php echo $riga["Nome"]; ?></td>
