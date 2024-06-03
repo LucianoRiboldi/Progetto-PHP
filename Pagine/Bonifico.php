@@ -1,6 +1,7 @@
 <?php
     require("controllo.php");
     $ID= $_SESSION['ID'];
+    $ris="NULLA";
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProgettoPHP</title>
     <link rel="stylesheet" href="../style.css">
+    <script>
+        function onlyOne(checkbox) {
+            var checkboxes = document.getElementsByName('beneficiario');
+            checkboxes.forEach((item) => {
+                if (item !== checkbox) item.checked = false;
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="contenitorepagina">
@@ -53,13 +62,34 @@
         <form action="" method="post">
             <label for="beneficiario">Seleziona Beneficiario:</label>
                 <?php
-                    foreach ($ris as $riga) {
-                        $cognome=$riga["Cognome"];
-                        $nome=$riga["Nome"];
-                        echo <<<EOD
-                        <p><input type="checkbox" name="beneficiario"/>."$cognome"."$nome"</p>
-                        EOD;
-                        
+                    if($ris!="NULLA"){
+                        foreach ($ris as $riga) {
+                            $cognome=$riga["Cognome"];
+                            $nome=$riga["Nome"];
+                            $ID = $riga["ID"];
+                            if($ID != $_SESSION["ID"]){
+                            echo <<<EOD
+                            <p><input type="checkbox" name="beneficiario" onclick="onlyOne(this)"/>."$cognome"."$nome"</p>
+                            EOD;
+                            }
+                            
+                        }
+                    }
+                    else{
+                        require("../Data/connessione.php");                        
+                        $query2 = "SELECT ID, Nome, Cognome
+                                   FROM utenti";
+                        $ris2=$conn->query($query2) or die("<p>Query fallita!</p>");
+                        foreach ($ris2 as $riga) {
+                            $cognome=$riga["Cognome"];
+                            $nome=$riga["Nome"];
+                            $ID = $riga["ID"];
+                            if($ID != $_SESSION["ID"]){
+                            echo <<<EOD
+                            <p><input type="checkbox" name="beneficiario" onclick="onlyOne(this)"/>."$cognome"."$nome"</p>
+                            EOD;
+                            }                            
+                        }
                     }
                 ?>
             <br>
@@ -75,23 +105,25 @@
                       WHERE utenti.ID='$ID'";
             $rism=$conn->query($querym) or die("<p>Query fallita!</p>");
             $contom=$rism->fetch_assoc();
-            $importo=$_POST["importo"];
-            if($contom>=$importo){
-                $sqlm= "UPDATE conticorrenti
-                        SET Saldo = Saldo - $importo
-                        WHERE IDUtente = '$ID'";
-                $IDpost = $_POST['ID'];
-                $sqld= "UPDATE conticorrenti
-                        SET Saldo = Saldo + $importo
-                        WHERE IDUTENTE = $IDpost";
-                $conn->query($sqlm);
-                $conn->query($sqld);
-                $conn->commit();
-                echo "Bonifico avvenuto con successo";
-            }else{
-                echo "Sul tuo conto non sono presenti i fondi necessari a completare il bonifico";
+            if(isset($_POST["importo"])){
+                $importo=$_POST["importo"];
+                if($contom>=$importo){
+                    $sqlm= "UPDATE conticorrenti
+                            SET Saldo = Saldo - $importo
+                            WHERE IDUtente = '$ID'";
+                    $IDpost = $_POST['ID'];
+                    $sqld= "UPDATE conticorrenti
+                            SET Saldo = Saldo + $importo
+                            WHERE IDUTENTE = $IDpost";
+                    $conn->query($sqlm);
+                    $conn->query($sqld);
+                    $conn->commit();
+                    echo "Bonifico avvenuto con successo";
+                }else{
+                    echo "Sul tuo conto non sono presenti i fondi necessari a completare il bonifico";
+                }
+                $conn->close();
             }
-            $conn->close();
         ?>
     </div>
 </body>
