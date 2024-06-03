@@ -43,11 +43,11 @@
                 } else {
                     require("../data/connessione.php");
 
-                    $query = "SELECT nome, cognome, email 
+                    $query = "SELECT Nome, Cognome, Email 
 						    FROM utenti 
-						    WHERE nome='$nome'
-                                AND cognome='$cognome'
-                                AND email='$email'";
+						    WHERE Nome='$nome'
+                                AND Cognome='$cognome'
+                                AND Email='$email'";
 
                     $ris = $conn->query($query) or die("<p>Query fallita!</p>");
                     if ($ris->num_rows > 0) {
