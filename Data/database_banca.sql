@@ -45,10 +45,10 @@ CREATE TABLE IF NOT EXISTS `conticorrenti` (
   CONSTRAINT `FK_conticorrenti_utenti` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.conticorrenti: ~0 rows (circa)
+-- Dump dei dati della tabella banca.conticorrenti: ~2 rows (circa)
 REPLACE INTO `conticorrenti` (`NumeroConto`, `IDUtente`, `Saldo`) VALUES
-	(1, 9, 0.00),
-	(2, 10, 0.00);
+	(1, 9, 5.54),
+	(2, 10, 8.99);
 
 -- Dump della struttura di tabella banca.utenti
 CREATE TABLE IF NOT EXISTS `utenti` (
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `utenti` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.utenti: ~0 rows (circa)
+-- Dump dei dati della tabella banca.utenti: ~2 rows (circa)
 REPLACE INTO `utenti` (`ID`, `Nome`, `Cognome`, `Email`, `Password`) VALUES
 	(9, 'a', 'a', 'a', 'a'),
 	(10, 'e', 'e', 'e', 'e');

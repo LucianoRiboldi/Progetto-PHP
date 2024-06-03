@@ -119,7 +119,9 @@
                     $conn->query($sqld);
                     $conn->commit();
                     echo "Bonifico avvenuto con successo";
-                    $querybonifico=""
+                    $querybonifico="INSERT INTO bonifici(IDContoDestinatario, IDContoMittente, SommaDenaro)
+                                        VALUES    '$ID', '$IDm', '$importo'";
+                    $conn->query($querybonifico);
                 }else{
                     echo "Sul tuo conto non sono presenti i fondi necessari a completare il bonifico";
                 }
