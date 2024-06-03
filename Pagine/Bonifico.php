@@ -1,6 +1,6 @@
 <?php
     require("controllo.php");
-    $ID= $_SESSION['ID'];
+    $IDm= $_SESSION['ID'];
     $ris="NULLA";
     ?>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
             <div class="logo"><a href="../index.html"><img src="../Immagini/logostirati.png"></a></div>
             <div class="titolo-centrale">BANCA DEGLI STIRATI</div>
             <div class="prova">
-                <div class="provacontenitore"><a href="../index.html">HOME</a></div>
+                <div class="provacontenitore"><a href="../index.php">HOME</a></div>
                 <div class="provacontenitore"><a href="Profilo.php">PROFILO</a></div>
                 <div class="provacontenitore"><a href="Trasferimenti.php">TRASFERIMENTI</a></div>
                 <div class="provacontenitore"><a href="Bonifico.php" class="attiva">BONIFICO</a></div>
@@ -86,7 +86,7 @@
                             $ID = $riga["ID"];
                             if($ID != $_SESSION["ID"]){
                             echo <<<EOD
-                            <p><input type="checkbox" name="beneficiario" onclick="onlyOne(this)"/>."$cognome"."$nome"</p>
+                            <p><input type="checkbox" name="beneficiario" value="$ID" onclick="onlyOne(this)"/>."$cognome"."$nome"</p>
                             EOD;
                             }                            
                         }
@@ -102,19 +102,19 @@
             require("../Data/connessione.php");
             $querym="SELECT conticorrenti.saldo
                       FROM utenti JOIN conticorrenti ON utenti.ID=conticorrenti.IDUtente
-                      WHERE utenti.ID='$ID'";
+                      WHERE utenti.ID='$IDm'";
             $rism=$conn->query($querym) or die("<p>Query fallita!</p>");
-            $contom=$rism->fetch_assoc();
-            if(isset($_POST["importo"])){
+            $contom=$rism->fetch_assoc()["saldo"];
+            if(isset($_POST["importo"])and isset($_POST["beneficiario"])){
                 $importo=$_POST["importo"];
+                $ID=$_POST["beneficiario"];
                 if($contom>=$importo){
                     $sqlm= "UPDATE conticorrenti
                             SET Saldo = Saldo - $importo
-                            WHERE IDUtente = '$ID'";
-                    $IDpost = $_POST['ID'];
+                            WHERE IDUtente = '$IDm'";
                     $sqld= "UPDATE conticorrenti
                             SET Saldo = Saldo + $importo
-                            WHERE IDUTENTE = $IDpost";
+                            WHERE  IDUtente='$ID'";
                     $conn->query($sqlm);
                     $conn->query($sqld);
                     $conn->commit();

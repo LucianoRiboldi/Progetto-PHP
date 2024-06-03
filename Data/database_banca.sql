@@ -14,6 +14,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- Dump della struttura del database banca
+CREATE DATABASE IF NOT EXISTS `banca` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `banca`;
+
 -- Dump della struttura di tabella banca.bonifici
 CREATE TABLE IF NOT EXISTS `bonifici` (
   `IDContoDestinatario` int(11) NOT NULL,
@@ -37,9 +42,12 @@ CREATE TABLE IF NOT EXISTS `conticorrenti` (
   PRIMARY KEY (`NumeroConto`),
   KEY `FK_conticorrenti_utenti` (`IDUtente`),
   CONSTRAINT `FK_conticorrenti_utenti` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.conticorrenti: ~0 rows (circa)
+-- Dump dei dati della tabella banca.conticorrenti: ~2 rows (circa)
+REPLACE INTO `conticorrenti` (`NumeroConto`, `IDUtente`, `Saldo`) VALUES
+	(1, 9, -10.00),
+	(2, 10, 10.00);
 
 -- Dump della struttura di tabella banca.transazioni
 CREATE TABLE IF NOT EXISTS `transazioni` (
@@ -63,9 +71,12 @@ CREATE TABLE IF NOT EXISTS `utenti` (
   `Email` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.utenti: ~0 rows (circa)
+-- Dump dei dati della tabella banca.utenti: ~2 rows (circa)
+REPLACE INTO `utenti` (`ID`, `Nome`, `Cognome`, `Email`, `Password`) VALUES
+	(9, 'a', 'a', 'a', 'a'),
+	(10, 'e', 'e', 'e', 'e');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
