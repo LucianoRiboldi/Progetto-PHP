@@ -119,6 +119,7 @@
                     $conn->query($sqld);
                     $conn->commit();
                     echo "Bonifico avvenuto con successo";
+                    $querybonifico=""
                 }else{
                     echo "Sul tuo conto non sono presenti i fondi necessari a completare il bonifico";
                 }

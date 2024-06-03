@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `bonifici` (
   `IDContoMittente` int(11) NOT NULL,
   `SommaDenaro` decimal(10,2) NOT NULL,
   `IDBonifico` int(11) NOT NULL AUTO_INCREMENT,
+  `DataBonifico` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`IDBonifico`),
   KEY `FK_bonifici_conticorrenti` (`IDContoDestinatario`),
   KEY `FK_bonifici_conticorrenti_2` (`IDContoMittente`),
@@ -44,24 +45,10 @@ CREATE TABLE IF NOT EXISTS `conticorrenti` (
   CONSTRAINT `FK_conticorrenti_utenti` FOREIGN KEY (`IDUtente`) REFERENCES `utenti` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.conticorrenti: ~2 rows (circa)
+-- Dump dei dati della tabella banca.conticorrenti: ~0 rows (circa)
 REPLACE INTO `conticorrenti` (`NumeroConto`, `IDUtente`, `Saldo`) VALUES
-	(1, 9, -10.00),
-	(2, 10, 10.00);
-
--- Dump della struttura di tabella banca.transazioni
-CREATE TABLE IF NOT EXISTS `transazioni` (
-  `IDTransazione` int(11) NOT NULL AUTO_INCREMENT,
-  `NumeroConto` int(11) NOT NULL,
-  `Importo` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `DataTransazione` timestamp NOT NULL DEFAULT current_timestamp(),
-  `TipoTransazione` enum('Deposito','Prelievo') NOT NULL,
-  PRIMARY KEY (`IDTransazione`),
-  KEY `FK_transazioni_conticorrenti` (`NumeroConto`),
-  CONSTRAINT `FK_transazioni_conticorrenti` FOREIGN KEY (`NumeroConto`) REFERENCES `conticorrenti` (`NumeroConto`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Dump dei dati della tabella banca.transazioni: ~0 rows (circa)
+	(1, 9, 0.00),
+	(2, 10, 0.00);
 
 -- Dump della struttura di tabella banca.utenti
 CREATE TABLE IF NOT EXISTS `utenti` (
@@ -73,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `utenti` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella banca.utenti: ~2 rows (circa)
+-- Dump dei dati della tabella banca.utenti: ~0 rows (circa)
 REPLACE INTO `utenti` (`ID`, `Nome`, `Cognome`, `Email`, `Password`) VALUES
 	(9, 'a', 'a', 'a', 'a'),
 	(10, 'e', 'e', 'e', 'e');
