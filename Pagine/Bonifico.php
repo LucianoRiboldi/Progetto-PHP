@@ -25,41 +25,43 @@
         <form method="post" action="">
             <table>
                 <tr>
-                    <td><label for="nome">Nome:</label></td>
-                    <td><input class="" type="text" name="nome" id="" value="<?php echo isset($_POST['nome_ricerca']) ? $_POST['nome_ricerca'] : ''; ?>"></td>
+                    <td><label for="nome_ricerca">Nome:</label></td>
+                    <td><input class="" type="text" name="nome_ricerca" id="" value="<?php echo isset($_POST['nome_ricerca']) ? $_POST['nome_ricerca'] : ''; ?>"></td>
                 </tr>
                 <tr>
-                    <td><label for="cognome">Cognome:</label></td>
-                    <td><input class="" type="text" name="cognome" id="" value="<?php echo isset($_POST['cognome_ricerca']) ? $_POST['cognome_ricerca'] : ''; ?>"></td>
+                    <td><label for="cognome_ricerca">Cognome:</label></td>
+                    <td><input class="" type="text" name="cognome_ricerca" id="" value="<?php echo isset($_POST['cognome_ricerca']) ? $_POST['cognome_ricerca'] : ''; ?>"></td>
                 </tr>
                 <tr>
 					<td style="text-align: center; padding-top: 10px" colspan="2"><input type="submit" value="Cerca"/></td>
 				</tr>
             </table>
-        </form>
-        <?php
+            <?php
             if (isset($_POST["nome_ricerca"]) and isset($_POST["cognome_ricerca"])) {
                 $nomeric = $_POST["nome_ricerca"];
                 $cognomeric = $_POST["cognome_ricerca"];
                 require("../Data/connessione.php");
-                $query = "SELECT ID, nome, cognome
+                $query = "SELECT ID, Nome, Cognome
                            FROM utenti
-                           WHERE nome LIKE '%$nomeric%'
-                               AND cognome LIKE '%$cognomeric%'";
+                           WHERE Nome LIKE '%$nomeric%'
+                               AND Cognome LIKE '%$cognomeric%'";
                 $ris=$conn->query($query) or die("<p>Query fallita!</p>");
                 $conn->close();
             }
         ?>
+        </form>
         <form action="" method="post">
             <label for="beneficiario">Seleziona Beneficiario:</label>
-            <select id="beneficiario" name="beneficiario">
                 <?php
                     foreach ($ris as $riga) {
-                        echo "<option value='" . $riga["ID"] . "'>" . $riga["nome"] . " " . $riga["cognome"] . "</option>";
+                        $cognome=$riga["Cognome"];
+                        $nome=$riga["Nome"];
+                        echo <<<EOD
+                        <p><input type="checkbox" name="beneficiario"/>."$cognome"."$nome"</p>
+                        EOD;
                         
                     }
                 ?>
-            </select>
             <br>
             <label for="importo">Importo:</label>
             <input type="number" id="importo" name="importo" step="0.01" required>
@@ -81,7 +83,7 @@
                 $IDpost = $_POST['ID'];
                 $sqld= "UPDATE conticorrenti
                         SET Saldo = Saldo + $importo
-                        WHERE IDUTENTE = '$IDpost'";
+                        WHERE IDUTENTE = $IDpost";
                 $conn->query($sqlm);
                 $conn->query($sqld);
                 $conn->commit();
