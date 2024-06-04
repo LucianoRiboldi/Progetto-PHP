@@ -94,9 +94,9 @@
                 ?>
             <br>
             <label for="importo">Importo:</label>
-            <input type="number" id="importo" name="importo" step="0.01" required>
+            <input type="number" name="importo" class="inputdenaro" step="0.01" required>
             <br>
-            <input type="submit" value="Esegui Bonifico">
+            <input type="submit" class="bottone" value="Esegui Bonifico">
         </form>
         <?php
             require("../Data/connessione.php");
@@ -130,12 +130,12 @@
                     $mittente=$mittentear["NumeroConto"];
                     $destinatario=$destinatarioar["NumeroConto"];
                     $conn->commit();
-                    echo "Bonifico avvenuto con successo";
+                    echo "<p>Bonifico avvenuto con successo</p>";
                     $querybonifico="INSERT INTO bonifici(IDContoDestinatario, IDContoMittente, SommaDenaro)
                                         VALUES    ('$mittente', '$destinatario', '$importo')";
                     $conn->query($querybonifico);
                 }else{
-                    echo "Sul tuo conto non sono presenti i fondi necessari a completare il bonifico";
+                    echo "<p>Sul tuo conto non sono presenti i fondi necessari a completare il bonifico</p>";
                 }
                 $conn->close();
             }

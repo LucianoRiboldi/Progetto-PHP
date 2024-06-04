@@ -64,7 +64,7 @@
 		<form action="" method="post">
 			<table id="tab_dati_personali">
 				<tr>
-					<td>Username:</td> <td><input class="input_dati_personali" type="text" name="username" value="<?php echo $row["ID"]; ?>" disabled="disabled"></td>
+					<td>ID Identificativo:</td> <td><input class="input_dati_personali" type="text" name="username" value="<?php echo $row["ID"]; ?>" disabled="disabled"></td>
 				</tr>
 				<tr>
 					<td>Password:</td> <td><input class="input_dati_personali" type="text" name="password" value="<?php echo $row["Password"]; ?>" <?php if(!$modifica) echo "disabled='disabled'"?>></td>
@@ -83,7 +83,7 @@
 				<input type="submit" name="pulsante_modifica" value="<?php if($modifica==false) echo $strmodifica; else echo $strconferma; ?>">
 			</p>
 		</form>
-        <a href="../data/logout.php">Logout</a>
+        <a class="logout" href="../data/logout.php">Esegui Logout</a>
     </div>
     <?php 
 		include('footer.php')
